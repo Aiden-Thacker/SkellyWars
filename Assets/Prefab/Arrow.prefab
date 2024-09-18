@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8411943829794141677}
   - component: {fileID: 1788051322941333418}
   - component: {fileID: 8495837334246244358}
+  - component: {fileID: 4399132325381168105}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -146,3 +147,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6721e8b000a6d7d4eaf57f0219279696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 3
+  speed: 20
+  lifeTime: 10
+  destroyOnImpact: 0
+  hitTarget:
+    m_PersistentCalls:
+      m_Calls: []
+  mask:
+    serializedVersion: 2
+    m_Bits: 193
+  tags:
+  - Player
+  - Enemy
+  - Friendly
+--- !u!114 &4399132325381168105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626750887856834696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad54517dc19258185960ef6d2f3a1b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeout:
+    m_PersistentCalls:
+      m_Calls: []
+  autoStart: 0
+  autoRestart: 0
+  countDownTime: 1
+  timeScale: 1

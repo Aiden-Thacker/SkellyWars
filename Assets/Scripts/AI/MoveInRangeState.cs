@@ -47,6 +47,25 @@ public class MoveInRangeState : SimpleState
             }
         }
 
+        if (((MeleeWeaponStateMachine)stateMachine).isAlive)
+        {
+            agent.SetDestination(((MeleeWeaponStateMachine)stateMachine).target.position);
+            
+            if(Vector3.Distance(agent.transform.position, ((MeleeWeaponStateMachine)stateMachine).target.position) < attackRange)
+            {
+                stateMachine.ChangeState(nameof(AttackState));
+            }
+        }
+
+        if (((RangeStateMachine)stateMachine).isAlive)
+        {
+            agent.SetDestination(((RangeStateMachine)stateMachine).target.position);
+            
+            if(Vector3.Distance(agent.transform.position, ((RangeStateMachine)stateMachine).target.position) < attackRange)
+            {
+                stateMachine.ChangeState(nameof(AttackState));
+            }
+        }
     }
 
     public override void OnExit()
