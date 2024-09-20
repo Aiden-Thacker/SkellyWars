@@ -17,6 +17,7 @@ public class Arrow : MonoBehaviour
     private Vector3 m_lastPosition;
     private RaycastHit m_info;
     private Timer m_timer;
+    private Rigidbody rb;
 
     private void Awake()
     {
@@ -30,17 +31,18 @@ public class Arrow : MonoBehaviour
     {
         m_timer = GetComponent<Timer>();
         m_timer.timeout.AddListener(DestroyBullet);
-
         m_timer.StartTimer(lifeTime);
 
-        // set init position
+        rb = GetComponent<Rigidbody>(); // Get the Rigidbody
+
+        // Set initial position
         m_lastPosition = transform.position;
     }
 
     private void FixedUpdate()
     {
+        // Ensure the arrow continues in the forward direction
         CollisionCheck();
-
         m_lastPosition = transform.position;
     }
 
@@ -50,13 +52,15 @@ public class Arrow : MonoBehaviour
         {
             if (tags.Contains(m_info.transform.tag))
             {
+                // Apply damage to the target
+                Debug.Log(m_info.transform.gameObject.name);
                 m_info.transform.GetComponent<Health>()?.Damage(damage);
-
                 hitTarget.Invoke();
-            }else
-            {
-                Destroy(transform.GetComponent<Rigidbody>());
             }
+            // else
+            // {
+            //     Destroy(transform.GetComponent<Rigidbody>());
+            // }
 
             if (destroyOnImpact)
             {

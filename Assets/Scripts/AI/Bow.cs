@@ -5,10 +5,10 @@ using UnityEngine;
 public class Bow : MonoBehaviour
 {
     public float timer = 5.0f;
-    public GameObject arrow;
+    public Arrow arrow;
+    public GameObject prefab;
     public float bulletTime;
     public Transform firePoint;
-    public float arrowSpeed = 20.0f;
 
     void Update()
     {
@@ -23,7 +23,8 @@ public class Bow : MonoBehaviour
 
         bulletTime = timer;
 
-        GameObject bulletObj = Instantiate(arrow, firePoint.transform.position, firePoint.transform.rotation);
-        arrow.GetComponent<Rigidbody>().AddForce(transform.forward * arrowSpeed, ForceMode.Impulse);
+        GameObject bulletObj = Instantiate(prefab, firePoint.transform.position, firePoint.transform.rotation);
+        Rigidbody rb = bulletObj.GetComponent<Rigidbody>();
+        rb.velocity = firePoint.forward * arrow.speed;
     }
 }
