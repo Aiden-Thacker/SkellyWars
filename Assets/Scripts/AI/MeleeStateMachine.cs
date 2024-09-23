@@ -7,6 +7,7 @@ using UnityEngine.AI;
 
 public class MeleeStateMachine : SimpleStateMachine
 {
+    public IdleState idle;
     public MoveInRangeState moveInRange;
     public AttackState melee;
     
@@ -18,7 +19,7 @@ public class MeleeStateMachine : SimpleStateMachine
 
     void Awake()
     {
-        
+        states.Add(idle);
         states.Add(moveInRange);
         states.Add(melee);
 

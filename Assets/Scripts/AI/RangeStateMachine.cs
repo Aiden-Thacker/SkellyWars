@@ -7,6 +7,7 @@ using UnityEngine.AI;
 
 public class RangeStateMachine : SimpleStateMachine
 {
+    public IdleState idle;
     public MoveInRangeState moveInRange;
     public AttackState shoot;
     
@@ -18,7 +19,7 @@ public class RangeStateMachine : SimpleStateMachine
 
     void Awake()
     {
-        
+        states.Add(idle);
         states.Add(moveInRange);
         states.Add(shoot);
 
