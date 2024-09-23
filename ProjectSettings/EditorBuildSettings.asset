@@ -4,5 +4,23 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Build/Milestone 1/MainMenu.unity
+    guid: f53b3a2b3d6d7cb4b948c77411662e65
+  - enabled: 1
+    path: Assets/Build/Milestone 1/Selection.unity
+    guid: 8b012f1cae99f9b4fa47dafda21775af
+  - enabled: 1
+    path: Assets/Build/Milestone 1/Tutorial.unity
+    guid: a33ff3825f63f2448b108e32d3159f89
+  - enabled: 1
+    path: Assets/Build/Milestone 1/LevelOne.unity
+    guid: 0a4b70acbdb5e2b4b964d0cb1c503f7c
+  - enabled: 1
+    path: Assets/Build/Milestone 1/LevelTwo.unity
+    guid: 8cd31622b9871e84aa9e60b3097c5152
+  - enabled: 1
+    path: Assets/Build/Milestone 1/LevelThree.unity
+    guid: 294277904c8936c47858b360b4375791
   m_configObjects: {}
