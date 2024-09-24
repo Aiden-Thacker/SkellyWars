@@ -44,9 +44,9 @@ public class MoveInRangeState : SimpleState
 
         if (meleeSM != null && meleeSM.isAlive)
         {
-            agent.SetDestination(meleeSM.target.position);
+            agent.SetDestination(meleeSM.target.transform.position);
 
-            if (Vector3.Distance(agent.transform.position, meleeSM.target.position) < attackRange)
+            if (Vector3.Distance(agent.transform.position, meleeSM.target.transform.position) < attackRange)
             {
                 stateMachine.ChangeState(nameof(AttackState));
             }
@@ -54,9 +54,9 @@ public class MoveInRangeState : SimpleState
 
         if (meleeWeaponSM != null && meleeWeaponSM.isAlive)
         {
-            agent.SetDestination(meleeWeaponSM.target.position);
+            agent.SetDestination(meleeWeaponSM.target.transform.position);
 
-            if (Vector3.Distance(agent.transform.position, meleeWeaponSM.target.position) < attackRange)
+            if (Vector3.Distance(agent.transform.position, meleeWeaponSM.target.transform.position) < attackRange)
             {
                 stateMachine.ChangeState(nameof(AttackState));
             }
@@ -64,9 +64,9 @@ public class MoveInRangeState : SimpleState
 
         if (rangeSM != null && rangeSM.isAlive)
         {
-            agent.SetDestination(rangeSM.target.position);
+            agent.SetDestination(rangeSM.target.transform.position);
 
-            if (Vector3.Distance(agent.transform.position, rangeSM.target.position) < attackRange)
+            if (Vector3.Distance(agent.transform.position, rangeSM.target.transform.position) < attackRange)
             {
                 stateMachine.ChangeState(nameof(AttackState));
             }

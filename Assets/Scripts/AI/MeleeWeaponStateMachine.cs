@@ -12,9 +12,11 @@ public class MeleeWeaponStateMachine : SimpleStateMachine
     public AttackState meleeWeapon;
     
     public bool isAlive;
+    public bool startMatch = false;
     public float inAttackRange = 1.0f;
+    public TargetingSystem targetingSystem;
+    public GameObject target;
 
-    public Transform target;
     private Health health;
 
     void Awake()
@@ -32,8 +34,10 @@ public class MeleeWeaponStateMachine : SimpleStateMachine
     void Start()
     {
         health = gameObject.GetComponent<Health>();
-        
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+
+        targetingSystem = gameObject.GetComponent<TargetingSystem>();
+
+        target = targetingSystem.FindTarget();
 
         ChangeState(nameof(MoveInRangeState));
     }

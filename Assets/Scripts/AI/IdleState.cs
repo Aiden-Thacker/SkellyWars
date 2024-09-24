@@ -7,29 +7,66 @@ using UnityEngine;
 [System.Serializable]
 public class IdleState : SimpleState
 {
-    public string targetFoundState;
     private GameObject target;
-    private GameObject gameObject;
     private TargetingSystem targetingSystem;
+    private UnityEngine.AI.NavMeshAgent agent;
     public override void OnStart()
     {
-        gameObject = stateMachine.gameObject;
-        targetingSystem = gameObject.GetComponent<TargetingSystem>();
+        Debug.Log("Idle State");
+        base.OnStart();
+
+        if (stateMachine is RangeStateMachine rangeSM)
+        {
+            agent = rangeSM.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        }
+        else if (stateMachine is MeleeWeaponStateMachine meleeWeaponSM)
+        {
+            agent = meleeWeaponSM.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        }
+        else if (stateMachine is MeleeStateMachine meleeSM)
+        {
+            agent = meleeSM.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        }
+
+        // Initialize targeting system (if not done elsewhere)
+        if (targetingSystem == null)
+        {
+            targetingSystem = stateMachine.GetComponent<TargetingSystem>();
+        }
     }
 
     public override void UpdateState(float _dt)
     {
-        // Find target
+        // Check if the match has started before doing anything else
+        bool matchStarted = false;
+
+        if (stateMachine is RangeStateMachine rangeSM && rangeSM.startMatch)
+        {
+            matchStarted = true;
+        }
+        else if (stateMachine is MeleeWeaponStateMachine meleeWeaponSM && meleeWeaponSM.startMatch)
+        {
+            matchStarted = true;
+        }
+        else if (stateMachine is MeleeStateMachine meleeSM && meleeSM.startMatch)
+        {
+            matchStarted = true;
+        }
+
+        // If the match hasn't started yet, return early and stay in idle
+        if (!matchStarted) return;
+
+        // Find a target only if the match has started
         target = targetingSystem.FindTarget();
 
-        if (target == false)
-            return;
+        if (target == null) return;
 
-        stateMachine.ChangeState(targetFoundState);
+        // If a target is found, switch to the target found state or attack state
+        stateMachine.ChangeState(nameof(MoveInRangeState));
     }
 
     public override void OnExit()
     {
-
+        base.OnExit();
     }
 }

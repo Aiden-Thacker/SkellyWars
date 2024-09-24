@@ -12,9 +12,10 @@ public class RangeStateMachine : SimpleStateMachine
     public AttackState shoot;
     
     public bool isAlive;
+    public bool startMatch = false;
     public float inAttackRange = 1.0f;
-
-    public Transform target;
+    public TargetingSystem targetingSystem;
+    public GameObject target;
     private Health health;
 
     void Awake()
@@ -32,10 +33,12 @@ public class RangeStateMachine : SimpleStateMachine
     void Start()
     {
         health = gameObject.GetComponent<Health>();
-        
-        target = GameObject.FindGameObjectWithTag("Player").transform;
 
-        ChangeState(nameof(MoveInRangeState));
+        targetingSystem = gameObject.GetComponent<TargetingSystem>();
+
+        target = targetingSystem.FindTarget();
+
+        ChangeState(nameof(IdleState));
     }
 
     void Update()

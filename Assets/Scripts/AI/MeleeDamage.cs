@@ -14,7 +14,7 @@ public class MeleeDamage : MonoBehaviour
     {
         if (enemyHealth == null)
         {
-            enemyHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+            enemyHealth = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Health>();
         }
     }
     public void DealDamage()

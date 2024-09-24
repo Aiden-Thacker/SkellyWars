@@ -1,31 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlaceUnit : MonoBehaviour
 {
-    public GameObject unit;
+    public GameObject[] units;
     public float limit = 15;
     public float placeableLimit = 0;
+    public TMP_Text countText;
 
-    private Camera cam;
+    public GameObject highlightOne;
+    public GameObject highlightTwo;
+    public GameObject highlightThree;
+
+    private Camera cam; 
     [SerializeField]
-    private LayerMask layerMask;
+    private LayerMask layerMask; 
+    private GameObject selectedUnit = null; 
 
-    // Start is called before the first frame update
     void Start()
     {
         cam = GetComponent<Camera>();
+
+        // Deactivate highlights initially
+        highlightOne.SetActive(false);
+        highlightTwo.SetActive(false);
+        highlightThree.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Check if the limit has been reached
+        // Check if the unit placement limit has been reached
         if (placeableLimit >= limit)
         {
             Debug.Log("Unit limit reached. Cannot place more units.");
             return;
+        }
+
+        // Check for number key inputs (1, 2, or 3) to select a unit
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            selectedUnit = units[0];
+            highlightOne.SetActive(true);
+            highlightTwo.SetActive(false);
+            highlightThree.SetActive(false);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            selectedUnit = units[1];
+            highlightOne.SetActive(false);
+            highlightTwo.SetActive(true);
+            highlightThree.SetActive(false);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            selectedUnit = units[2];
+            highlightOne.SetActive(false);
+            highlightTwo.SetActive(false);
+            highlightThree.SetActive(true);
         }
 
         // Raycasting from the camera to mouse position
@@ -37,15 +70,14 @@ public class PlaceUnit : MonoBehaviour
         // Check if ray hit a placeable area
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
-            // If left mouse button is clicked and hits a valid surface
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && selectedUnit != null)
             {
-                // Instantiate the unit at the hit point
-                Instantiate(unit, hit.point, Quaternion.identity);
-                
-                // Increment the unit count
+                Instantiate(selectedUnit, hit.point, Quaternion.identity);
+
                 placeableLimit++;
             }
         }
+
+        countText.text = placeableLimit + "/" + limit;
     }
 }

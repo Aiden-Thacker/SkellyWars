@@ -47,7 +47,7 @@ public class AttackState : SimpleState
     {
         if (stateMachine is RangeStateMachine)
         {
-            ((RangeStateMachine)stateMachine).transform.LookAt(((RangeStateMachine)stateMachine).target);
+            ((RangeStateMachine)stateMachine).transform.LookAt(((RangeStateMachine)stateMachine).target.transform);
             if (!isAttacking)
             {
                 Debug.Log("Attacking");
@@ -59,7 +59,7 @@ public class AttackState : SimpleState
         }
         if (stateMachine is MeleeStateMachine)
         {
-            ((MeleeStateMachine)stateMachine).transform.LookAt(((MeleeStateMachine)stateMachine).target);
+            ((MeleeStateMachine)stateMachine).transform.LookAt(((MeleeStateMachine)stateMachine).target.transform);
             if (!isAttacking)
             {
                 Debug.Log("Attacking");
@@ -71,7 +71,7 @@ public class AttackState : SimpleState
         }
         if (stateMachine is MeleeWeaponStateMachine)
         {
-            ((MeleeWeaponStateMachine)stateMachine).transform.LookAt(((MeleeWeaponStateMachine)stateMachine).target);
+            ((MeleeWeaponStateMachine)stateMachine).transform.LookAt(((MeleeWeaponStateMachine)stateMachine).target.transform);
             if (!isAttacking)
             {
                 Debug.Log("Attacking");
