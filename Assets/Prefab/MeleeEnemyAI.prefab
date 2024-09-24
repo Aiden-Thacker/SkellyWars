@@ -682,7 +682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f62ce3eaabffe6398d2f2380e96881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 2100000, guid: 51736cbfa116e2703a14e791e44bcf13, type: 2}
-  hurtMaterial: {fileID: 2100000, guid: 476f00ecd38971f44b6d1413197350bd, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: e67929c5648ad3e4894f9dd6d28c1af6, type: 2}
+  hurtMaterial: {fileID: 2100000, guid: 2c31946c0161774359a9e152c21f28f8, type: 2}
   targetRenderer: {fileID: 6057517123983110805}
   timer: {fileID: 4447496625818002798}

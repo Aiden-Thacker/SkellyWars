@@ -376,6 +376,7 @@ GameObject:
   - component: {fileID: 357693086739565100}
   - component: {fileID: 3463126362508562816}
   - component: {fileID: 4316320069146620801}
+  - component: {fileID: 7149721135684014997}
   m_Layer: 8
   m_Name: FriendlyRangeAI
   m_TagString: Friendly
@@ -576,8 +577,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f62ce3eaabffe6398d2f2380e96881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 2100000, guid: e5fb81654239a368fa71fa7b905de83c, type: 2}
-  hurtMaterial: {fileID: 2100000, guid: 682927ae60a13d04ea142726e834bb40, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: 3a0bd8598c150a5438c5773efd5d250b, type: 2}
+  hurtMaterial: {fileID: 2100000, guid: 0434da183f7cb6352ae4608842bea68e, type: 2}
   targetRenderer: {fileID: 729064839030307518}
   timer: {fileID: 8813895917654401698}
 --- !u!114 &3463126362508562816
@@ -670,6 +671,33 @@ MonoBehaviour:
   range: 20
   targetTag: Enemy
   targetPriority: 0
+--- !u!54 &7149721135684014997
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6349991602513649218}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 32
+  m_CollisionDetection: 0
 --- !u!1 &7237448034230631668
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,7 @@ public class AttackState : SimpleState
     private GameObject target;
 
     private float attackRange;
+    private float recheckTimer = 1.0f;
     private bool targetInRange;
 
     public override void OnStart()
@@ -59,6 +60,13 @@ public class AttackState : SimpleState
 
     public override void UpdateState(float dt)
     {
+        recheckTimer -= dt;
+        if (recheckTimer > 0) 
+        {
+            return;
+        }
+        recheckTimer = 1.0f;  // Reset the timer
+
         // Check if the target is dead or out of range
         if (target == null || !IsTargetAlive() || !IsTargetInRange())
         {
@@ -107,7 +115,8 @@ public class AttackState : SimpleState
     // Check if the target is within attack range
     private bool IsTargetInRange()
     {
-        if (Vector3.Distance(agent.transform.position, target.transform.position) <= attackRange)
+        float buffer = 0.5f; // Buffer zone to prevent immediate state switching
+        if (Vector3.Distance(agent.transform.position, target.transform.position) <= attackRange + buffer)
         {
             return true;
         }

@@ -296,8 +296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f62ce3eaabffe6398d2f2380e96881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 2100000, guid: 51736cbfa116e2703a14e791e44bcf13, type: 2}
-  hurtMaterial: {fileID: 2100000, guid: 476f00ecd38971f44b6d1413197350bd, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: 3a0bd8598c150a5438c5773efd5d250b, type: 2}
+  hurtMaterial: {fileID: 2100000, guid: 0434da183f7cb6352ae4608842bea68e, type: 2}
   targetRenderer: {fileID: 3577906815714809406}
   timer: {fileID: 1688454353924686229}
 --- !u!1 &5063927646162076698

@@ -359,8 +359,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f62ce3eaabffe6398d2f2380e96881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 2100000, guid: 187d0c35b0a1ff8cf9ac5146a56e5073, type: 2}
-  hurtMaterial: {fileID: 2100000, guid: ecb3ec717b547ea46b0083cf99313a70, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: 3a0bd8598c150a5438c5773efd5d250b, type: 2}
+  hurtMaterial: {fileID: 2100000, guid: 0434da183f7cb6352ae4608842bea68e, type: 2}
   targetRenderer: {fileID: 8642872951292672733}
   timer: {fileID: 6938122110663517854}
 --- !u!1 &5633302637146299633
@@ -509,7 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a3077e5b812ea0428f018f956e051f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tagToDamage: E
+  tagToDamage: Enemy
   damage: 1
 --- !u!1 &8790160259375087124
 GameObject:
