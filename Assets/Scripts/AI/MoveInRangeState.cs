@@ -7,69 +7,96 @@ public class MoveInRangeState : SimpleState
 {
     private NavMeshAgent agent;
     private float attackRange;
+    private TargetingSystem targetingSystem;
+    private GameObject target;
 
     public override void OnStart()
     {
         Debug.Log("Move State");
         base.OnStart();
 
-        // Use 'as' to safely cast the state machine and check for null
-        RangeStateMachine rangeSM = stateMachine as RangeStateMachine;
-        MeleeWeaponStateMachine meleeWeaponSM = stateMachine as MeleeWeaponStateMachine;
-        MeleeStateMachine meleeSM = stateMachine as MeleeStateMachine;
-
-        if (rangeSM != null)
+        // Initialize the agent and attack range based on the state machine
+        if (stateMachine is RangeStateMachine rangeSM)
         {
             agent = rangeSM.GetComponent<NavMeshAgent>();
             attackRange = rangeSM.inAttackRange + 5.0f;
+            targetingSystem = rangeSM.GetComponent<TargetingSystem>();
+            target = rangeSM.target;
         }
-        else if (meleeWeaponSM != null)
+        else if (stateMachine is MeleeWeaponStateMachine meleeWeaponSM)
         {
             agent = meleeWeaponSM.GetComponent<NavMeshAgent>();
             attackRange = meleeWeaponSM.inAttackRange + 0.5f;
+            targetingSystem = meleeWeaponSM.GetComponent<TargetingSystem>();
+            target = meleeWeaponSM.target;
         }
-        else if (meleeSM != null)
+        else if (stateMachine is MeleeStateMachine meleeSM)
         {
             agent = meleeSM.GetComponent<NavMeshAgent>();
             attackRange = meleeSM.inAttackRange + 0.5f;
+            targetingSystem = meleeSM.GetComponent<TargetingSystem>();
+            target = meleeSM.target;
         }
     }
 
     public override void UpdateState(float dt)
     {
-        // Again, safely cast the state machine using 'as'
-        MeleeStateMachine meleeSM = stateMachine as MeleeStateMachine;
-        MeleeWeaponStateMachine meleeWeaponSM = stateMachine as MeleeWeaponStateMachine;
-        RangeStateMachine rangeSM = stateMachine as RangeStateMachine;
-
-        if (meleeSM != null && meleeSM.isAlive)
+        // Safely cast the state machine
+        if (stateMachine is MeleeStateMachine meleeSM && meleeSM.isAlive)
         {
-            agent.SetDestination(meleeSM.target.transform.position);
+            UpdateTarget(meleeSM);  // Continuously update target
+            MoveTowardsTarget(meleeSM);
+        }
+        else if (stateMachine is MeleeWeaponStateMachine meleeWeaponSM && meleeWeaponSM.isAlive)
+        {
+            UpdateTarget(meleeWeaponSM);
+            MoveTowardsTarget(meleeWeaponSM);
+        }
+        else if (stateMachine is RangeStateMachine rangeSM && rangeSM.isAlive)
+        {
+            UpdateTarget(rangeSM);
+            MoveTowardsTarget(rangeSM);
+        }
+    }
 
-            if (Vector3.Distance(agent.transform.position, meleeSM.target.transform.position) < attackRange)
+    private void UpdateTarget(SimpleStateMachine sm)
+    {
+        // Re-acquire target if null or out of range
+        if (target == null || Vector3.Distance(agent.transform.position, target.transform.position) > attackRange)
+        {
+            target = targetingSystem.FindTarget();
+            if (sm is MeleeStateMachine meleeSM) 
+            {
+                meleeSM.target = target;
+            }
+            if (sm is MeleeWeaponStateMachine meleeWeaponSM) 
+            {
+                meleeWeaponSM.target = target;
+            }
+            if (sm is RangeStateMachine rangeSM) 
+            {
+                rangeSM.target = target;
+            }
+        }
+    }
+
+    private void MoveTowardsTarget(SimpleStateMachine sm)
+    {
+        // Continue moving toward the target
+        if (target != null)
+        {
+            agent.SetDestination(target.transform.position);
+
+            // Check if in attack range and switch to attack state
+            if (Vector3.Distance(agent.transform.position, target.transform.position) < attackRange)
             {
                 stateMachine.ChangeState(nameof(AttackState));
             }
         }
-
-        if (meleeWeaponSM != null && meleeWeaponSM.isAlive)
+        else
         {
-            agent.SetDestination(meleeWeaponSM.target.transform.position);
-
-            if (Vector3.Distance(agent.transform.position, meleeWeaponSM.target.transform.position) < attackRange)
-            {
-                stateMachine.ChangeState(nameof(AttackState));
-            }
-        }
-
-        if (rangeSM != null && rangeSM.isAlive)
-        {
-            agent.SetDestination(rangeSM.target.transform.position);
-
-            if (Vector3.Distance(agent.transform.position, rangeSM.target.transform.position) < attackRange)
-            {
-                stateMachine.ChangeState(nameof(AttackState));
-            }
+            // No target found, go back to idle or another fallback state
+            stateMachine.ChangeState(nameof(IdleState));
         }
     }
 

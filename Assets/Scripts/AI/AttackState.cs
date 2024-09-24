@@ -8,90 +8,119 @@ using UnityEngine.Events;
 public class AttackState : SimpleState
 {
     public Timer time;
-    public UnityEvent attack;  
+    public UnityEvent attack;
     public UnityEvent stopAttacking;
-    NavMeshAgent agent;
-    private bool playerInRange;
+    private NavMeshAgent agent;
     public bool isAttacking;
+    private GameObject target;
+
+    private float attackRange;
+    private bool targetInRange;
 
     public override void OnStart()
     {
         Debug.Log("Attack State");
         base.OnStart();
 
-        if (stateMachine is RangeStateMachine)
+        if (stateMachine is RangeStateMachine rangeSM)
         {
-            agent = ((RangeStateMachine)stateMachine).GetComponent<NavMeshAgent>();
-            agent.SetDestination(((RangeStateMachine)stateMachine).transform.position);
+            agent = rangeSM.GetComponent<NavMeshAgent>();
+            target = rangeSM.target;
+            attackRange = rangeSM.inAttackRange;
+            agent.SetDestination(rangeSM.transform.position);
+        }
+        else if (stateMachine is MeleeWeaponStateMachine meleeWeaponSM)
+        {
+            agent = meleeWeaponSM.GetComponent<NavMeshAgent>();
+            target = meleeWeaponSM.target;
+            attackRange = meleeWeaponSM.inAttackRange;
+            agent.SetDestination(meleeWeaponSM.transform.position);
+        }
+        else if (stateMachine is MeleeStateMachine meleeSM)
+        {
+            agent = meleeSM.GetComponent<NavMeshAgent>();
+            target = meleeSM.target;
+            attackRange = meleeSM.inAttackRange;
+            agent.SetDestination(meleeSM.transform.position);
         }
 
-
-        if (stateMachine is MeleeWeaponStateMachine)
+        // Start the attack cooldown timer
+        if (time != null)
         {
-            agent = ((MeleeWeaponStateMachine)stateMachine).GetComponent<NavMeshAgent>();
-            agent.SetDestination(((MeleeWeaponStateMachine)stateMachine).transform.position);
+            time.StartTimer(2.0f, true);
+            time.timeout.AddListener(PerformAttack);
         }
 
-        if (stateMachine is MeleeStateMachine)
-        {
-            agent = ((MeleeStateMachine)stateMachine).GetComponent<NavMeshAgent>();
-            agent.SetDestination(((MeleeStateMachine)stateMachine).transform.position);
-        }
-
-        time.StartTimer(2, true);
         if (attack == null)
+        {
             attack = new UnityEvent();
+        }
     }
 
     public override void UpdateState(float dt)
     {
-        if (stateMachine is RangeStateMachine)
+        // Check if the target is dead or out of range
+        if (target == null || !IsTargetAlive() || !IsTargetInRange())
         {
-            ((RangeStateMachine)stateMachine).transform.LookAt(((RangeStateMachine)stateMachine).target.transform);
-            if (!isAttacking)
-            {
-                Debug.Log("Attacking");
-                isAttacking = true;
-                attack.Invoke();
-
-                isAttacking = false;
-            }
-        }
-        if (stateMachine is MeleeStateMachine)
-        {
-            ((MeleeStateMachine)stateMachine).transform.LookAt(((MeleeStateMachine)stateMachine).target.transform);
-            if (!isAttacking)
-            {
-                Debug.Log("Attacking");
-                isAttacking = true;
-                attack.Invoke();
-
-                isAttacking = false;
-            }
-        }
-        if (stateMachine is MeleeWeaponStateMachine)
-        {
-            ((MeleeWeaponStateMachine)stateMachine).transform.LookAt(((MeleeWeaponStateMachine)stateMachine).target.transform);
-            if (!isAttacking)
-            {
-                Debug.Log("Attacking");
-                isAttacking = true;
-                attack.Invoke();
-
-                isAttacking = false;
-            }
+            Debug.Log("Finding a new target...");
+            stateMachine.ChangeState(nameof(MoveInRangeState));
+            return;
         }
 
+        // Face the target while attacking
+        if (target != null)
+        {
+            agent.transform.LookAt(target.transform);
+        }
 
-
-
-
+        // Let the timer control when the attack happens
+        if (time.timeLeft <= 0 && !isAttacking)
+        {
+            PerformAttack();  // Attack if the timer has finished
+        }
     }
-    
+
+    // Perform the attack logic
+    private void PerformAttack()
+    {
+        if (!isAttacking)
+        {
+            Debug.Log("Performing attack!");
+            isAttacking = true;
+            attack.Invoke();
+            isAttacking = false;
+            time.StartTimer();
+        }
+    }
+
+    // Check if the target is alive
+    private bool IsTargetAlive()
+    {
+        Health targetHealth = target.GetComponent<Health>();
+        if (targetHealth != null && targetHealth.currentHealth == 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    // Check if the target is within attack range
+    private bool IsTargetInRange()
+    {
+        if (Vector3.Distance(agent.transform.position, target.transform.position) <= attackRange)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public override void OnExit()
     {
         base.OnExit();
-
-
+        if (time != null)
+        {
+            time.StopTimer();  
+            time.timeout.RemoveListener(PerformAttack);  
+        }
     }
 }

@@ -36,7 +36,7 @@ public class RangeStateMachine : SimpleStateMachine
 
         targetingSystem = gameObject.GetComponent<TargetingSystem>();
 
-        target = targetingSystem.FindTarget();
+        //target = targetingSystem.FindTarget();
 
         ChangeState(nameof(IdleState));
     }
@@ -46,6 +46,10 @@ public class RangeStateMachine : SimpleStateMachine
         if(health.currentHealth > 0)
         {
             isAlive = true;
+            if (startMatch)
+            {
+                target = targetingSystem.FindTarget();
+            }
         }else
         {
             isAlive = false;

@@ -37,8 +37,6 @@ public class MeleeWeaponStateMachine : SimpleStateMachine
 
         targetingSystem = gameObject.GetComponent<TargetingSystem>();
 
-        target = targetingSystem.FindTarget();
-
         ChangeState(nameof(IdleState));
     }
 
@@ -47,6 +45,10 @@ public class MeleeWeaponStateMachine : SimpleStateMachine
         if(health.currentHealth > 0)
         {
             isAlive = true;
+            if (startMatch)
+            {
+                target = targetingSystem.FindTarget();
+            }
         }else
         {
             isAlive = false;
