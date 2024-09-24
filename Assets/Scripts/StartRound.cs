@@ -9,6 +9,18 @@ public class StartRound : MonoBehaviour
 
     void Start()
     {
+        FindAllUnits();
+    }
+
+    // Call this function when you're ready to start the round (e.g., on a button press)
+    public void PrepareRound()
+    {
+        FindAllUnits();
+        ActivateRound();
+    }
+
+    void FindAllUnits()
+    {
         // Get all friendlies and enemies in the scene by their tags
         friendlies = GameObject.FindGameObjectsWithTag("Friendly");
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -51,5 +63,10 @@ public class StartRound : MonoBehaviour
                 meleeWeaponSM.startMatch = true;
             }
         }
+    }
+
+    public void Done()
+    {
+        Destroy(this);
     }
 }

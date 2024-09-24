@@ -5,21 +5,15 @@ using SuperPupSystems.Helper;
 
 public class MeleeDamage : MonoBehaviour
 {
-    public int dmg;
-    public Health enemyHealth;
-
-    //public AttackState attackState;
-
-    private void Start()
+    public string tagToDamage;
+    public int damage = 1;
+    void OnTriggerEnter(Collider _other)
     {
-        if (enemyHealth == null)
+        Health health = _other.GetComponent<Health>();
+
+        if (health && _other.tag == tagToDamage)
         {
-            enemyHealth = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Health>();
+            health.Damage(damage);
         }
-    }
-    public void DealDamage()
-    {
-        Debug.Log("Enemy attacking");
-        enemyHealth.Damage(dmg);
     }
 }

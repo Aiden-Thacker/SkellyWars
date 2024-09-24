@@ -38,7 +38,7 @@ public class MeleeStateMachine : SimpleStateMachine
 
         target = targetingSystem.FindTarget();
 
-        ChangeState(nameof(MoveInRangeState));
+        ChangeState(nameof(IdleState));
     }
 
     void Update()

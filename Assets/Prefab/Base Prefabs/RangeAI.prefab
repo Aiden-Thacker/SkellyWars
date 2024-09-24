@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 2851429378608267020}
   - component: {fileID: 402301935358099840}
   - component: {fileID: 4044297069222909014}
-  - component: {fileID: 7966394515511703818}
   - component: {fileID: 2053123900065731442}
   - component: {fileID: 4311867341916148569}
+  - component: {fileID: 7966394515511703818}
+  - component: {fileID: 4794322102519851324}
   m_Layer: 0
   m_Name: RangeAI
   m_TagString: Untagged
@@ -186,6 +187,41 @@ MonoBehaviour:
         m_CallState: 2
   maxHealth: 10
   currentHealth: 1
+--- !u!114 &2053123900065731442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415940062304077302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad54517dc19258185960ef6d2f3a1b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeout:
+    m_PersistentCalls:
+      m_Calls: []
+  autoStart: 0
+  autoRestart: 1
+  countDownTime: 2
+  timeScale: 1
+--- !u!114 &4311867341916148569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415940062304077302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f62ce3eaabffe6398d2f2380e96881, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultMaterial: {fileID: 2100000, guid: e5fb81654239a368fa71fa7b905de83c, type: 2}
+  hurtMaterial: {fileID: 2100000, guid: 682927ae60a13d04ea142726e834bb40, type: 2}
+  targetRenderer: {fileID: 7565041917518188351}
+  timer: {fileID: 5778940919972685629}
 --- !u!114 &7966394515511703818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +236,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   states: []
   stateName: 
+  idle:
+    stateStart:
+      m_PersistentCalls:
+        m_Calls: []
+    stateExited:
+      m_PersistentCalls:
+        m_Calls: []
+    stateMachine: {fileID: 0}
   moveInRange:
     stateStart:
       m_PersistentCalls:
@@ -249,9 +293,11 @@ MonoBehaviour:
           m_CallState: 2
     isAttacking: 0
   isAlive: 0
+  startMatch: 0
   inAttackRange: 1
+  targetingSystem: {fileID: 0}
   target: {fileID: 0}
---- !u!114 &2053123900065731442
+--- !u!114 &4794322102519851324
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -260,32 +306,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2415940062304077302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad54517dc19258185960ef6d2f3a1b93, type: 3}
+  m_Script: {fileID: 11500000, guid: cfb97f3337ed27757a55690643e30d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeout:
-    m_PersistentCalls:
-      m_Calls: []
-  autoStart: 0
-  autoRestart: 1
-  countDownTime: 2
-  timeScale: 1
---- !u!114 &4311867341916148569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2415940062304077302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34f62ce3eaabffe6398d2f2380e96881, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 2100000, guid: e5fb81654239a368fa71fa7b905de83c, type: 2}
-  hurtMaterial: {fileID: 2100000, guid: 682927ae60a13d04ea142726e834bb40, type: 2}
-  targetRenderer: {fileID: 7565041917518188351}
-  timer: {fileID: 5778940919972685629}
+  range: 20
+  targetTag: E
+  targetPriority: 0
 --- !u!1 &3534778754079131970
 GameObject:
   m_ObjectHideFlags: 0

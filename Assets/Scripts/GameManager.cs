@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance; // Singleton instance
+    public static GameManager instance; 
 
-    public LoseMenu loseMenu; // For the player if the Blue side Loses
-    public WinMenu winMenu; //For the player if the Blue side Wins
+    public LoseMenu loseMenu;
+    public WinMenu winMenu;
 
-    // Lists to store objects with red and blue tags
+    // Lists to store objects with enemy and friendly tags
     private List<GameObject> enemies = new List<GameObject>();
     private List<GameObject> friendlies = new List<GameObject>();
 
@@ -36,6 +36,47 @@ public class GameManager : MonoBehaviour
         // Find all objects with the "Blue" tag and add them to the friendlies list
         GameObject[] friendlyArray = GameObject.FindGameObjectsWithTag("Friendly");
         friendlies.AddRange(friendlyArray);
+
+        //ToggleStateMachines(false);
+        PlacingPhase();
+    }
+
+    // Function to activate or deactivate all state machines
+    // private void ToggleStateMachines(bool state)
+    // {
+    //     // Toggle for friendlies
+    //     foreach (GameObject friendly in friendlies)
+    //     {
+    //         if (friendly.TryGetComponent(out RangeStateMachine rangeSM))
+    //             rangeSM.enabled = state;
+    //         if (friendly.TryGetComponent(out MeleeStateMachine meleeSM))
+    //             meleeSM.enabled = state;
+    //         if (friendly.TryGetComponent(out MeleeWeaponStateMachine meleeWeaponSM))
+    //             meleeWeaponSM.enabled = state;
+    //     }
+
+    //     // Toggle for enemies
+    //     foreach (GameObject enemy in enemies)
+    //     {
+    //         if (enemy.TryGetComponent(out RangeStateMachine rangeSM))
+    //             rangeSM.enabled = state;
+    //         if (enemy.TryGetComponent(out MeleeStateMachine meleeSM))
+    //             meleeSM.enabled = state;
+    //         if (enemy.TryGetComponent(out MeleeWeaponStateMachine meleeWeaponSM))
+    //             meleeWeaponSM.enabled = state;
+    //     }
+    // }
+
+    public void PlacingPhase()
+    {
+        Time.timeScale = 0.0f;
+    }
+
+    // Function is called when the fight button is pressed
+    public void ActivateRound()
+    {
+        Time.timeScale = 1.0f;
+        //ToggleStateMachines(true);
     }
 
     // Function to add object to corresponding list based on tag
