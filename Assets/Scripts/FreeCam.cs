@@ -49,6 +49,8 @@ public class FreeCam : MonoBehaviour
     /// </summary>
     private bool looking = false;
 
+    private float currentRotationX = 0f;
+
     void Update()
     {
         var fastMode = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
@@ -104,14 +106,15 @@ public class FreeCam : MonoBehaviour
 
         if (looking)
         {
-            float mouseX = Input.GetAxis("Mouse X") * freeLookSensitivity;
-            float mouseY = Input.GetAxis("Mouse Y") * freeLookSensitivity;
+            // Horizontal rotation
+            float newRotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * freeLookSensitivity;
 
-            float newRotationX = Mathf.DeltaAngle(0, transform.localEulerAngles.y + mouseX);
-            
-            float newRotationY = Mathf.Clamp(transform.localEulerAngles.x - mouseY, -90f, 90f);
-            
-            transform.localEulerAngles = new Vector3(newRotationY, newRotationX, 0f);
+            // Vertical rotation (handle clamping and smooth vertical rotation)
+            currentRotationX -= Input.GetAxis("Mouse Y") * freeLookSensitivity;
+            currentRotationX = Mathf.Clamp(currentRotationX, -85f, 85f);
+
+            // Apply rotations
+            transform.localEulerAngles = new Vector3(currentRotationX, newRotationX, 0f);
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
