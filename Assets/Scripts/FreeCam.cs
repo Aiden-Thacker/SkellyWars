@@ -104,18 +104,15 @@ public class FreeCam : MonoBehaviour
 
         if (looking)
         {
-            float newRotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * freeLookSensitivity;
-            float newRotationY = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * freeLookSensitivity;
-            newRotationY = Mathf.Clamp(newRotationY, -90f, 90f); //untested code
+            float mouseX = Input.GetAxis("Mouse X") * freeLookSensitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * freeLookSensitivity;
+
+            float newRotationX = Mathf.DeltaAngle(0, transform.localEulerAngles.y + mouseX);
+            
+            float newRotationY = Mathf.Clamp(transform.localEulerAngles.x - mouseY, -90f, 90f);
+            
             transform.localEulerAngles = new Vector3(newRotationY, newRotationX, 0f);
         }
-
-        // float axis = Input.GetAxis("Mouse ScrollWheel");
-        // if (axis != 0)
-        // {
-        //     var zoomSensitivity = fastMode ? this.fastZoomSensitivity : this.zoomSensitivity;
-        //     transform.position = transform.position + transform.forward * axis * zoomSensitivity;
-        // }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
