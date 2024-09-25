@@ -106,6 +106,7 @@ public class FreeCam : MonoBehaviour
         {
             float newRotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * freeLookSensitivity;
             float newRotationY = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * freeLookSensitivity;
+            newRotationY = Mathf.Clamp(newRotationY, -90f, 90f); //untested code
             transform.localEulerAngles = new Vector3(newRotationY, newRotationX, 0f);
         }
 
