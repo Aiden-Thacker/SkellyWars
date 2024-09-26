@@ -29,6 +29,7 @@ public class AttackState : SimpleState
             target = rangeSM.target;
             attackRange = rangeSM.inAttackRange;
             agent.SetDestination(rangeSM.transform.position);
+            agent.updateRotation = false;
         }
         else if (stateMachine is MeleeWeaponStateMachine meleeWeaponSM)
         {
@@ -75,10 +76,13 @@ public class AttackState : SimpleState
             return;
         }
 
-        // Face the target while attacking
-        if (target != null)
+        // Smoothly rotate toward the target when in range
+        if (IsTargetInRange())
         {
-            agent.transform.LookAt(target.transform);
+            Vector3 direction = (target.transform.position - agent.transform.position).normalized;
+            direction.y = 0;  // Ensure the AI only rotates along the Y-axis
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
 
         // Let the timer control when the attack happens
