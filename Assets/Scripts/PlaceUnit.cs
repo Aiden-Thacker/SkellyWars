@@ -96,8 +96,8 @@ public class PlaceUnit : MonoBehaviour
     int GetUnitCost(GameObject unit)
     {
 
-        if (unit == units[1]) return 3;
-        if (unit == units[2]) return 2;
+        if (unit == units[1]) return 2;
+        if (unit == units[2]) return 3;
         return 1; // Default cost for unit[0]
     }
 

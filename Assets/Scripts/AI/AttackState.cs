@@ -27,7 +27,7 @@ public class AttackState : SimpleState
         {
             agent = rangeSM.GetComponent<NavMeshAgent>();
             target = rangeSM.target;
-            attackRange = rangeSM.inAttackRange;
+            attackRange = rangeSM.inAttackRange + 4.0f;
             agent.SetDestination(rangeSM.transform.position);
             agent.updateRotation = false;
         }
