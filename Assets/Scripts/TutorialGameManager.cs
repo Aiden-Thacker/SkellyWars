@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using SuperPupSystems.Helper;
 
-public class GameManager : MonoBehaviour
+public class TutorialGameManager : MonoBehaviour
 {
-    public static GameManager instance; 
+    //public static GameManager instance; 
 
-    public LoseMenu loseMenu;
-    public WinMenu winMenu;
+    //public LoseMenu loseMenu;
+    //public WinMenu winMenu;
 
     // Lists to store objects with enemy and friendly tags
     public List<GameObject> enemies = new List<GameObject>();
@@ -17,20 +18,20 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         // Singleton pattern
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        // if (instance == null)
+        // {
+        //     instance = this;
+        // }
+        // else
+        // {
+        //     Destroy(gameObject);
+        //     return;
+        // }
     }
 
     private void Start()
     {
-        PlacingPhase();
+        //PlacingPhase();
     }
 
     public void PlacingPhase()
@@ -104,7 +105,7 @@ public class GameManager : MonoBehaviour
         if (friendlies.Count == 0)
         {
             Debug.Log("Your Team Lost");
-            loseMenu.Lose();
+            //loseMenu.Lose();
         }
     }
 
@@ -113,7 +114,7 @@ public class GameManager : MonoBehaviour
         if (enemies.Count == 0)
         {
             Debug.Log("Your Team Won");
-            winMenu.Win();
+            //winMenu.Win();
         }
     }
 }

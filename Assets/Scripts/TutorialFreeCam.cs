@@ -17,7 +17,8 @@ using UnityEngine;
 ///	mouse			- free look / rotation
 ///
 /// </summary>
-public class FreeCam : MonoBehaviour
+
+public class TutorialFreeCam : MonoBehaviour
 {
     /// <summary>
     /// Normal speed of camera movement.
@@ -49,6 +50,11 @@ public class FreeCam : MonoBehaviour
     /// </summary>
     private bool looking = false;
 
+    public GameObject placeUnitDescritpion;
+    public GameObject rightClickInfo;
+    public bool unitCheck = false;
+    public GameObject cameraMoveInfo;
+
     private float currentRotationX = 0f;
 
     void Update()
@@ -60,52 +66,60 @@ public class FreeCam : MonoBehaviour
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             transform.position = transform.position + (-transform.right * movementSpeed * Time.deltaTime);
-            Debug.Log("Move");
+            //Debug.Log("Move");
+            cameraMoveInfo.SetActive(false);
         }
 
         //Move Right
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             transform.position = transform.position + (transform.right * movementSpeed * Time.deltaTime);
-            Debug.Log("Move");
+            //Debug.Log("Move");
+            cameraMoveInfo.SetActive(false);
         }
 
         //Move Forward
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             transform.position = transform.position + (transform.forward * movementSpeed * Time.deltaTime);
-            Debug.Log("Move");
+            //Debug.Log("Move");
+            cameraMoveInfo.SetActive(false);
         }
 
         //Move Backwards
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             transform.position = transform.position + (-transform.forward * movementSpeed * Time.deltaTime);
-            Debug.Log("Move");
+            //Debug.Log("Move");
+            cameraMoveInfo.SetActive(false);
         }
 
         //Fly Up
         if (Input.GetKey(KeyCode.Space))
         {
             transform.position = transform.position + (transform.up * movementSpeed * Time.deltaTime);
+            cameraMoveInfo.SetActive(false);
         }
 
         //Fly Down
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
         {
             transform.position = transform.position + (-transform.up * movementSpeed * Time.deltaTime);
+            cameraMoveInfo.SetActive(false);
         }
 
         //Unsure
         if (Input.GetKey(KeyCode.R) || Input.GetKey(KeyCode.PageUp))
         {
             transform.position = transform.position + (Vector3.up * movementSpeed * Time.deltaTime);
+            cameraMoveInfo.SetActive(false);
         }
 
         //Unsure
         if (Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.PageDown))
         {
             transform.position = transform.position + (-Vector3.up * movementSpeed * Time.deltaTime);
+            cameraMoveInfo.SetActive(false);
         }
 
         if (looking)
@@ -121,13 +135,20 @@ public class FreeCam : MonoBehaviour
             transform.localEulerAngles = new Vector3(currentRotationX, newRotationX, 0f);
         }
 
+        if(unitCheck)
+        {
+            placeUnitDescritpion.SetActive(false);
+        }
+
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             StartLooking();
+            rightClickInfo.SetActive(false);
         }
         else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             StopLooking();
+            placeUnitDescritpion.SetActive(true);
         }
     }
 

@@ -1,0 +1,155 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using TMPro;
+
+public class TutorialPlaceUnit : MonoBehaviour
+{
+    public GameObject[] units;
+    public float limit = 15;
+    public float placeableLimit = 0;
+    public TMP_Text countText;
+
+    public GameObject highlightOne;
+    public GameObject highlightTwo;
+    public GameObject highlightThree;
+
+    public GameObject placeUnitInfo;
+    public TutorialFreeCam tutorialFreeCam;
+
+    private Camera cam; 
+    [SerializeField]
+    private LayerMask layerMask; 
+    private GameObject selectedUnit = null; 
+    private bool justSelected = false;
+
+    void Start()
+    {
+        cam = GetComponent<Camera>();
+
+        if (cam == null)
+        {
+            Debug.LogError("Main Camera not found!");
+        }
+
+        // Deactivate highlights initially
+        highlightOne.SetActive(false);
+        highlightTwo.SetActive(false);
+        highlightThree.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (justSelected)
+        {
+            justSelected = false;
+            return;
+        }
+
+        // Check if the unit placement limit has been reached
+        if (placeableLimit >= limit)
+        {
+            Debug.Log("Unit limit reached. Cannot place more units.");
+            return;
+        }
+
+        // Check for number key inputs (1, 2, or 3) to select a unit
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SelectUnit(0);
+            TurnOffInfo(); 
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SelectUnit(1);
+            TurnOffInfo(); 
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SelectUnit(2);
+            TurnOffInfo(); 
+        }
+
+        // Raycasting from the camera to mouse position
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.yellow);
+
+        // Check if ray hit a placeable area
+        if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                if (selectedUnit != null)
+                {
+                    // Check if placing the unit would exceed the limit
+                    int unitCost = GetUnitCost(selectedUnit);
+                    if (placeableLimit + unitCost <= limit)
+                    {
+                        Vector3 spawnPosition = hit.point;
+                        spawnPosition.y += 1.0f;
+
+                        Instantiate(selectedUnit, spawnPosition, Quaternion.identity);
+                        PlaceUnitOnGround(unitCost);
+                    }
+                    else
+                    {
+                        Debug.Log("Cannot place unit. Limit would be exceeded.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("No unit selected for placement.");
+                }
+            }
+        }
+
+        countText.text = placeableLimit + "/" + limit;
+    }
+
+    void PlaceUnitOnGround(int unitCost)
+    {
+        placeableLimit += unitCost;
+    }
+
+    int GetUnitCost(GameObject unit)
+    {
+
+        if (unit == units[1]) return 2;
+        if (unit == units[2]) return 3;
+        return 1; // Default cost for unit[0]
+    }
+
+    void SelectUnit(int unitIndex)
+    {
+        selectedUnit = units[unitIndex];
+        highlightOne.SetActive(unitIndex == 0);
+        highlightTwo.SetActive(unitIndex == 1);
+        highlightThree.SetActive(unitIndex == 2);
+        justSelected = true;
+    }
+
+    public void BasicFriendlyButton() 
+    { 
+        SelectUnit(0);
+        TurnOffInfo(); 
+    }
+    public void MeleeFriendlyButton() 
+    { 
+        SelectUnit(2);
+        TurnOffInfo(); 
+    }
+    public void RangeFriendlyButton()
+    { 
+        SelectUnit(1);
+        TurnOffInfo();
+    }
+
+    public void TurnOffInfo()
+    {
+        placeUnitInfo.SetActive(false);
+        tutorialFreeCam.unitCheck = true;
+    }
+}

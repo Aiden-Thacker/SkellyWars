@@ -25,6 +25,11 @@ public class PlaceUnit : MonoBehaviour
     {
         cam = GetComponent<Camera>();
 
+        if (cam == null)
+        {
+            Debug.LogError("Main Camera not found!");
+        }
+
         // Deactivate highlights initially
         highlightOne.SetActive(false);
         highlightTwo.SetActive(false);
@@ -34,58 +39,68 @@ public class PlaceUnit : MonoBehaviour
     void Update()
     {
         if (justSelected)
-        {
-            justSelected = false;
-            return;
-        }
-        // Check if the unit placement limit has been reached
-        if (placeableLimit >= limit)
-        {
-            Debug.Log("Unit limit reached. Cannot place more units.");
-            return;
-        }
+    {
+        justSelected = false;
+        return;
+    }
 
-        // Check for number key inputs (1, 2, or 3) to select a unit
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SelectUnit(0); 
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SelectUnit(1); 
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SelectUnit(2); 
-        }
+    // Check if the unit placement limit has been reached
+    if (placeableLimit >= limit)
+    {
+        Debug.Log("Unit limit reached. Cannot place more units.");
+        return;
+    }
 
-        // Raycasting from the camera to mouse position
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+    // Check for number key inputs (1, 2, or 3) to select a unit
+    if (Input.GetKeyDown(KeyCode.Alpha1))
+    {
+        SelectUnit(0); 
+    }
+    else if (Input.GetKeyDown(KeyCode.Alpha2))
+    {
+        SelectUnit(1); 
+    }
+    else if (Input.GetKeyDown(KeyCode.Alpha3))
+    {
+        SelectUnit(2); 
+    }
 
-        Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.yellow);
+    // Raycasting from the camera to mouse position
+    Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+    RaycastHit hit;
 
-        // Check if ray hit a placeable area
-        if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+    Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.yellow);
+
+    // Check if ray hit a placeable area
+    if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+    {
+        if (Input.GetButtonDown("Fire1"))
         {
-            if (Input.GetButtonDown("Fire1") && selectedUnit != null)
+            if (selectedUnit != null)
             {
                 // Check if placing the unit would exceed the limit
                 int unitCost = GetUnitCost(selectedUnit);
                 if (placeableLimit + unitCost <= limit)
                 {
-                    Instantiate(selectedUnit, hit.point, Quaternion.identity);
+                    Vector3 spawnPosition = hit.point;
+                    spawnPosition.y += 1.0f;
+
+                    Instantiate(selectedUnit, spawnPosition, Quaternion.identity);
                     PlaceUnitOnGround(unitCost);
                 }
                 else
                 {
                     Debug.Log("Cannot place unit. Limit would be exceeded.");
-                    // Later add Text/code that says you hit your limit after trying to keep placing units
                 }
             }
+            else
+            {
+                Debug.LogError("No unit selected for placement.");
+            }
         }
+    }
 
-        countText.text = placeableLimit + "/" + limit;
+    countText.text = placeableLimit + "/" + limit;
     }
 
     void PlaceUnitOnGround(int unitCost)
@@ -116,10 +131,10 @@ public class PlaceUnit : MonoBehaviour
     }
     public void MeleeFriendlyButton() 
     { 
-        SelectUnit(1); 
+        SelectUnit(2); 
     }
     public void RangeFriendlyButton()
     { 
-        SelectUnit(2); 
+        SelectUnit(1); 
     }
 }

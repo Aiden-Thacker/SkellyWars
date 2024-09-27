@@ -236,10 +236,10 @@ MonoBehaviour:
   outOfHealth:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3995344447245753595}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 6826616971987204721}
+        m_TargetAssemblyTypeName: SuperPupSystems.Helper.Health, Assembly-CSharp
+        m_MethodName: DestroyGameObject
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb97f3337ed27757a55690643e30d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 20
+  range: 200
   targetTag: Enemy
   targetPriority: 0
 --- !u!114 &2216903082400121984
@@ -468,8 +468,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.5400172, y: 1, z: 1.0347481}
+  m_Center: {x: 0.053385865, y: 0, z: 0.017374039}
 --- !u!54 &6382725740923475597
 Rigidbody:
   m_ObjectHideFlags: 0

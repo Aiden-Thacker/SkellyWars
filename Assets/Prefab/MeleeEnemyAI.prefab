@@ -238,8 +238,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.9938562, y: 1, z: 1.299389}
+  m_Center: {x: 0.053691067, y: 0, z: 0.14969438}
 --- !u!114 &7595996920755090280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,10 +559,10 @@ MonoBehaviour:
   outOfHealth:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4671571589750163486}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 5641749946349991614}
+        m_TargetAssemblyTypeName: SuperPupSystems.Helper.Health, Assembly-CSharp
+        m_MethodName: DestroyGameObject
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -648,7 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb97f3337ed27757a55690643e30d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 20
+  range: 200
   targetTag: Friendly
   targetPriority: 0
 --- !u!114 &2964826564525268305

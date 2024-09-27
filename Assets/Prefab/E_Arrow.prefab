@@ -136,7 +136,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   tags:
-  - Enemy
+  - Friendly
 --- !u!114 &207872048445164196
 MonoBehaviour:
   m_ObjectHideFlags: 0
