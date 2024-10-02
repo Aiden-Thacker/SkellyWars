@@ -15,12 +15,6 @@ public class WinMenu : MonoBehaviour
         winSection.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void Win()
     {
         Debug.Log("You have WON!");
@@ -54,5 +48,10 @@ public class WinMenu : MonoBehaviour
         Debug.Log("Quitting Build");
         Application.Quit();
         #endif
+    }
+
+    public void NextLevel(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }
